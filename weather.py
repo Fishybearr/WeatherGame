@@ -4,7 +4,7 @@ import requests_cache
 import pandas as pd
 from retry_requests import retry
 
-from flask import Flask
+from flask import Flask, render_template
 
 from geopy.geocoders import Nominatim
 
@@ -15,7 +15,7 @@ def get_lat_long(city_name):
     if location:
         return location.latitude, location.longitude
     else:
-        return None, None
+        return 0, 0 #default vals for when city cannot be found
 
 
 
@@ -39,7 +39,7 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 
 @app.route("/")
 def ShowMainPage():
-    return "<p>Hello World!</p>"
+    return render_template('index.html')
 
 
 @app.route("/weather", methods=['GET'])
@@ -75,7 +75,10 @@ def fetchWeather():
     print(f"Current time {current.Time()}")
     print(f"Current temperature_2m {current_temperature_2m}")
     print(f"Current precipitation {current_precipitation}")
-    t = f"<p>Current Temp {current_temperature_2m}</p>"
-    return t
+    #t = f"<p>Current Temp {current_temperature_2m}</p>"
+
+    #round number to whole
+    current_temperature_2m = round(current_temperature_2m,1)
+    return str(current_temperature_2m)
 
 app.run(debug=True)
