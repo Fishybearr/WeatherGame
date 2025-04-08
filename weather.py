@@ -121,5 +121,11 @@ def validateAnswer():
         return "yes"
     else:
         return "no"
+    
+@app.route("/cityNames", methods = ['GET'])
+def GetCityNames():
+    #add names in a random order
+    # TODO fetch names from the db and put them in a random order
+    return "Queensbury New York\nFort Edward New York\nBuffalo New York"
 
 app.run(debug=True)
