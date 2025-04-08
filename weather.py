@@ -4,9 +4,19 @@ import requests_cache
 import pandas as pd
 from retry_requests import retry
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 from geopy.geocoders import Nominatim
+
+import sqlite3
+
+#Fetches data from sqlite
+conn = sqlite3.connect('weatherDB.db')
+cursor = conn.cursor()
+cursor.execute("SELECT city1 FROM seeds WHERE id=1")
+row = cursor.fetchone()
+conn.close()
+print(row)
 
 
 def get_lat_long(city_name):
@@ -24,7 +34,7 @@ def get_lat_long(city_name):
 #the database as seeds
 #Then the server can pull the coords and city names
 #from the DB and send them to the client
-city = "Queensbury, New York"
+city = "Buffalo, New York"
 latitude, longitude = get_lat_long(city)
 
 
@@ -44,6 +54,10 @@ def ShowMainPage():
 
 @app.route("/weather", methods=['GET'])
 def fetchWeather():
+    #Get the value for the selected seed and use as weather source
+
+
+
     #can set a random lat and long here
     #then get the name of the city
 
@@ -80,5 +94,32 @@ def fetchWeather():
     #round number to whole
     current_temperature_2m = round(current_temperature_2m,1)
     return str(current_temperature_2m)
+
+@app.route("/validate", methods = ['POST'])
+def validateAnswer():
+    #fetch answer from correct seed
+    playerChoice = request.form['answer']
+    
+    id = 1;
+    conn = sqlite3.connect('weatherDB.db')
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT correctCity FROM seeds where id={id}")
+    correctAnswer = cursor.fetchone();
+    conn.close()
+
+    correctAnswer = str(correctAnswer);
+
+    #remove front and end chars from answer
+    correctAnswer = correctAnswer[2:-3]
+
+    #replace | with SPACE
+    correctAnswer = correctAnswer.replace("|"," ")
+
+    print(correctAnswer)
+
+    if playerChoice.__eq__(correctAnswer):
+        return "yes"
+    else:
+        return "no"
 
 app.run(debug=True)
