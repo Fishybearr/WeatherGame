@@ -10,6 +10,8 @@ from geopy.geocoders import Nominatim
 
 import sqlite3
 
+import random;
+
 #Fetches data from sqlite
 #conn = sqlite3.connect('weatherDB.db')
 #cursor = conn.cursor()
@@ -17,6 +19,9 @@ import sqlite3
 #row = cursor.fetchone()
 #conn.close()
 #print(row)
+
+
+#---TODO---TODO---TODO: Implement blueprints to clean up this file---
 
 
 def get_lat_long(city_name):
@@ -34,8 +39,18 @@ def get_lat_long(city_name):
 #the database as seeds
 #Then the server can pull the coords and city names
 #from the DB and send them to the client
-city = "Buffalo, New York"
-latitude, longitude = get_lat_long(city)
+
+#TODO: Move this to it's own function
+id =2;
+conn = sqlite3.connect('weatherDB.db')
+cursor = conn.cursor()
+cursor.execute(f"SELECT correctCity FROM seeds where id={id}")
+correctCity = cursor.fetchone();
+conn.close();
+
+correctCity = str(correctCity).replace("|"," ")
+
+latitude, longitude = get_lat_long(correctCity)
 
 
 
@@ -65,7 +80,7 @@ def fetchWeather():
 	    "longitude": longitude,
 	    "current": ["temperature_2m", "precipitation"],
 	    "wind_speed_unit": "mph",
-	    "temperature_unit": "fahrenheit",
+	    "temperature_unit": "fahrenheit", #can do deg C as well
 	    "precipitation_unit": "inch"
     }
     responses = openmeteo.weather_api(url, params=params)
@@ -87,7 +102,7 @@ def fetchWeather():
     print(f"Current precipitation {current_precipitation}")
     #t = f"<p>Current Temp {current_temperature_2m}</p>"
 
-    #round number to whole
+    #round number to 1 decimal place
     current_temperature_2m = round(current_temperature_2m,1)
     return str(current_temperature_2m)
 
@@ -100,8 +115,8 @@ def validateAnswer():
     
     #TODO: Move this ID to global as it is the
     # only identifier for what seed we should be on
-    id = 1;
-    
+    id = 2;
+
     #connect to DB and pull the correctAnswer for current seed
     conn = sqlite3.connect('weatherDB.db')
     cursor = conn.cursor()
@@ -127,12 +142,51 @@ def validateAnswer():
 
     # TODO: Update this to pull from the database and put the names
     # in a random order before sending the string
+
     # Returns the names of the cities as a string
-    #
 @app.route("/cityNames", methods = ['GET'])
 def GetCityNames():
+    id = 2;
+    conn = sqlite3.connect('weatherDB.db');
+    cursor = conn.cursor();
+    cursor.execute(f"SELECT city1, city2, correctCity FROM seeds where id={id}");
+    row = cursor.fetchone();
+    conn.close();
+
+    rand50 = random.randint(0,1);
+
+    if rand50 == 0:
+        c1 = row[0]
+        c2 = row[1]
+    else:
+        c1 = row[1]
+        c2 = row[0]
+
+    c3 = row[2]
+    
+    c1 = str(c1).replace("|"," ")
+    c2 = str(c2).replace("|"," ")
+    c3 = str(c3).replace("|"," ")
+
+
+    cities = ["","",""]
+    
+    rand = random.randint(0,2)
+    cities[rand] = c3;
+
+    if rand == 2: #rand last
+        cities[0] = c1
+        cities[1] = c2
+    elif rand == 1: #rand second
+        cities[0] = c1;
+        cities[2] = c2;
+    else: #rand first
+        cities[1] = c1;
+        cities[2] = c2;
+  
+
     #add names in a random order
     # TODO fetch names from the db and put them in a random order
-    return "Queensbury New York\nFort Edward New York\nBuffalo New York"
+    return f"{cities[0]}\n{cities[1]}\n{cities[2]}"
 
 app.run(debug=True)

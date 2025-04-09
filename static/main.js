@@ -95,6 +95,7 @@ function SendAnswer(ans)
                 //Take this response and use it to determine what
                 //happens next
                 console.log(sender.responseText);
+                document.getElementById("winState").innerText = String(sender.responseText); //this is hackable on client side so actual score would have to be saved serverSide
             }
         else
         {
