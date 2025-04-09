@@ -101,7 +101,7 @@ function GetCitiesFromServer()
  * Validate an answer against the server
  * @param {string} answer to be validated on server 
  */
-function SendAnswer(ans)
+function SendAnswer(ans,btnID)
 {
     console.log(ans);
 
@@ -115,7 +115,28 @@ function SendAnswer(ans)
                 //Take this response and use it to determine what
                 //happens next
                 console.log(sender.responseText);
-                document.getElementById("winState").innerText = String(sender.responseText); //this is hackable on client side so actual score would have to be saved serverSide
+                let output = String(sender.responseText); //this is hackable on client side so actual score would have to be saved serverSide
+                
+                b1.disabled = true;
+                b2.disabled = true;
+                b3.disabled = true;
+
+
+                if(output === "yes")
+                {
+                    btnID.textContent = "Correct";
+                    btnID.className = 'correct';
+                    
+                }
+                else
+                {
+                    btnID.textContent = "Wrong";
+                    btnID.className = 'wrong';
+                    
+                }
+
+                document.getElementById("endMessage").className = 'endMessage';
+                
             }
         else
         {

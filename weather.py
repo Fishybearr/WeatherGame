@@ -12,13 +12,11 @@ import sqlite3
 
 import random;
 
-#Fetches data from sqlite
-#conn = sqlite3.connect('weatherDB.db')
-#cursor = conn.cursor()
-#cursor.execute("SELECT city1 FROM seeds WHERE id=1")
-#row = cursor.fetchone()
-#conn.close()
-#print(row)
+
+#TODO: Implement session cookies to save a user's progress for the day so they
+#can't just refresh the tab and retry
+
+id = 2;
 
 
 #---TODO---TODO---TODO: Implement blueprints to clean up this file---
@@ -41,7 +39,7 @@ def get_lat_long(city_name):
 #from the DB and send them to the client
 
 #TODO: Move this to it's own function
-id =2;
+#id =1;
 conn = sqlite3.connect('weatherDB.db')
 cursor = conn.cursor()
 cursor.execute(f"SELECT correctCity FROM seeds where id={id}")
@@ -152,7 +150,7 @@ def validateAnswer():
     
     #TODO: Move this ID to global as it is the
     # only identifier for what seed we should be on
-    id = 2;
+    #id = 1;
 
     #connect to DB and pull the correctAnswer for current seed
     conn = sqlite3.connect('weatherDB.db')
@@ -183,7 +181,7 @@ def validateAnswer():
     # Returns the names of the cities as a string
 @app.route("/cityNames", methods = ['GET'])
 def GetCityNames():
-    id = 2;
+    #id = 1;
     conn = sqlite3.connect('weatherDB.db');
     cursor = conn.cursor();
     cursor.execute(f"SELECT city1, city2, correctCity FROM seeds where id={id}");

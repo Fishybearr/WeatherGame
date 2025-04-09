@@ -7,18 +7,26 @@
 
 <div id="weatherData" class="weatherData">
     <div class="temp" id="temp">Loading Temperature </div>
-    <img id="weatherIcon" src="" alt="clear day">
+    <img id="weatherIcon" src="" alt="clear day" width="200px" height="auto" draggable="false">
 </div>
 
 
 <br><br>
 
-<button id="b1" onclick="SendAnswer(b1.textContent)">City 1</button>
-<button id="b2" onclick="SendAnswer(b2.textContent)">City 2</button>
-<button id="b3" onclick="SendAnswer(b3.textContent)">City 3</button>
+<div class="buttons">
 
-<div id="winState">
-    PlaceHolder
+    <button id="b1" onclick="SendAnswer(b1.textContent,b1)">City 1</button>
+    <br><br>
+    <button id="b2" onclick="SendAnswer(b2.textContent,b2)">City 2</button>
+    <br><br>
+    <button id="b3" onclick="SendAnswer(b3.textContent,b3)">City 3</button>
+
+</div>
+
+<br><br>
+
+<div class="none" id="endMessage">
+Thanks For Playing! Come back Tomorrow to play another level
 </div>
 
 <script src="{{ url_for('static', filename='main.js') }}"></script>
