@@ -1,15 +1,16 @@
-<p>Welcome to Weather Guesser</p>
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+<h1>Welcome to Weather Guesser</h1>
 
 
 
-<div id="temp">Loading Temperature</div>
-<button id="b1">City 1</button>
-<button id="b2">City 2</button>
-<button id="b3">City 3</button>
 
-<form method="post" action="http://127.0.0.1:5000/validate">
-    <input type="text" name="answer" id = "answer">
-    <input type="submit" value="submit answer">
-</form>
+<div class="temp" id="temp">Loading Temperature</div>
+
+<br><br>
+
+<button id="b1" onclick="SendAnswer(b1.textContent)">City 1</button>
+<button id="b2" onclick="SendAnswer(b2.textContent)">City 2</button>
+<button id="b3" onclick="SendAnswer(b3.textContent)">City 3</button>
 
 <script src="{{ url_for('static', filename='main.js') }}"></script>

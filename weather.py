@@ -11,12 +11,12 @@ from geopy.geocoders import Nominatim
 import sqlite3
 
 #Fetches data from sqlite
-conn = sqlite3.connect('weatherDB.db')
-cursor = conn.cursor()
-cursor.execute("SELECT city1 FROM seeds WHERE id=1")
-row = cursor.fetchone()
-conn.close()
-print(row)
+#conn = sqlite3.connect('weatherDB.db')
+#cursor = conn.cursor()
+#cursor.execute("SELECT city1 FROM seeds WHERE id=1")
+#row = cursor.fetchone()
+#conn.close()
+#print(row)
 
 
 def get_lat_long(city_name):
@@ -57,10 +57,6 @@ def fetchWeather():
     #Get the value for the selected seed and use as weather source
 
 
-
-    #can set a random lat and long here
-    #then get the name of the city
-
     # Make sure all required weather variables are listed here
     # The order of variables in hourly or daily is important to assign them correctly below
     url = "https://api.open-meteo.com/v1/forecast"
@@ -98,15 +94,22 @@ def fetchWeather():
 @app.route("/validate", methods = ['POST'])
 def validateAnswer():
     #fetch answer from correct seed
-    playerChoice = request.form['answer']
+    playerChoice = str(request.data)
+    playerChoice = playerChoice[2:-1]
+    print(playerChoice)
     
+    #TODO: Move this ID to global as it is the
+    # only identifier for what seed we should be on
     id = 1;
+    
+    #connect to DB and pull the correctAnswer for current seed
     conn = sqlite3.connect('weatherDB.db')
     cursor = conn.cursor()
     cursor.execute(f"SELECT correctCity FROM seeds where id={id}")
     correctAnswer = cursor.fetchone();
     conn.close()
 
+    #Force correctAnswer to be a string
     correctAnswer = str(correctAnswer);
 
     #remove front and end chars from answer
@@ -115,13 +118,17 @@ def validateAnswer():
     #replace | with SPACE
     correctAnswer = correctAnswer.replace("|"," ")
 
-    print(correctAnswer)
 
     if playerChoice.__eq__(correctAnswer):
         return "yes"
     else:
         return "no"
     
+
+    # TODO: Update this to pull from the database and put the names
+    # in a random order before sending the string
+    # Returns the names of the cities as a string
+    #
 @app.route("/cityNames", methods = ['GET'])
 def GetCityNames():
     #add names in a random order

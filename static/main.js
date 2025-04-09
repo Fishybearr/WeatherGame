@@ -1,5 +1,13 @@
 const tempDiv = document.getElementById("temp");
 
+
+//get the buttons
+const b1 = document.getElementById("b1");
+const b2 = document.getElementById("b2");
+const b3 = document.getElementById("b3");
+
+
+
     const xhr = new XMLHttpRequest();
 
     xhr.open('GET','/weather');
@@ -8,7 +16,8 @@ const tempDiv = document.getElementById("temp");
     {
         if(xhr.status >= 200 && xhr.status < 300 )
         {
-            tempDiv.innerText = xhr.responseText;
+            let tmp = String(xhr.responseText);
+            tempDiv.innerText = tmp + ' °F';
         }
         else //request failed
         {
@@ -29,9 +38,7 @@ const tempDiv = document.getElementById("temp");
     //Those ids can be sent to server and verified against correct answer in the DB
 function GetCitiesFromServer()
 {
-    const b1 = document.getElementById("b1");
-    const b2 = document.getElementById("b2");
-    const b3 = document.getElementById("b3");
+   
 
     const xhr2 = new XMLHttpRequest
     xhr2.open('GET','/cityNames');
@@ -70,7 +77,42 @@ function GetCitiesFromServer()
 
 }
 
+/**
+ * Validate an answer against the server
+ * @param {string} answer to be validated on server 
+ */
+function SendAnswer(ans)
+{
+    console.log(ans);
+
+    sender = new XMLHttpRequest;
+
+    sender.open('POST','/validate');
+    sender.onload = function()
+    {
+        if(sender.status >= 200 && sender.status < 300)
+            {
+                //Take this response and use it to determine what
+                //happens next
+                console.log(sender.responseText);
+            }
+        else
+        {
+            console.error("Error");
+        }
+    }
+
+    sender.onerror = function()
+    {
+        console.error("Error");
+    }
+
+    sender.send(String(ans));
+}
+
+
 GetCitiesFromServer();
+
 
     
 
