@@ -50,6 +50,10 @@ const b3 = document.getElementById("b3");
             {
                 wIcon.src = 'static/weatherIcons/cloudy.svg';
             }
+        else if(weatherCode === 'partCloudy')
+            {
+                wIcon.src = 'static/weatherIcons/cloudy-3-day.svg';
+            }
     }
 
 

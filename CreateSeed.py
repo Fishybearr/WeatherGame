@@ -12,9 +12,9 @@ def get_lat_long(city_name):
         return 0, 0 #default vals for when city cannot be found
 
 
-city1 = "Kyoto, Japan";
-city2 = "Prague, Czech Republic";
-city3 = "Buenos Aires, Argentina";
+city1 = "Cape Town, South Africa";
+city2 = "Auckland, New Zealand";
+city3 = "Vienna, Austria";
 
 latitude, longitude = get_lat_long(city1)
 print (f"{latitude},{longitude}")

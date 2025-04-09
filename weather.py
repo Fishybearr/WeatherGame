@@ -16,7 +16,7 @@ import random;
 #TODO: Implement session cookies to save a user's progress for the day so they
 #can't just refresh the tab and retry
 
-id = 2;
+id = 3;
 
 
 #---TODO---TODO---TODO: Implement blueprints to clean up this file---
@@ -76,8 +76,8 @@ def fetchWeather():
     # The order of variables in hourly or daily is important to assign them correctly below
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
-	"latitude": 52.52,
-	"longitude": 13.41,
+	"latitude": latitude,
+	"longitude": longitude,
 	"current": ["temperature_2m", "precipitation", "weather_code"],
 	"wind_speed_unit": "mph",
 	"temperature_unit": "fahrenheit",
@@ -113,22 +113,24 @@ def fetchWeather():
     
     #cloudy
     elif current_weather_code == 2:
-        weather = "cloudy"
+        weather = "partCloudy"
     
     elif current_weather_code == 102:
-        weather = "cloudy"
+        weather = "partCloudy"
 
     elif current_weather_code == 3:
-        weather = "cloudy"
+        weather = "partCloudy"
     
     elif current_weather_code == 103:
-        weather = "cloudy"
+        weather = "partCloudy"
     
     elif current_weather_code == 4:
         weather = "cloudy"
     
     elif current_weather_code == 104:
         weather = "cloudy"
+
+        #rainy
 
 
 
@@ -138,7 +140,7 @@ def fetchWeather():
     #return str(current_temperature_2m)
     return returnString;
 
-    #TODO: Add weather icons and logic for other weather codes
+    #TODO: Add weather icons and logic for other weather codes on sever-side and client-side
 
 
 @app.route("/validate", methods = ['POST'])

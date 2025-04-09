@@ -4,7 +4,7 @@ h1
 }
 .temp
 {
-    color: coral;
+    color: whitesmoke;
     text-align: center;
     font-size: 50px;
 }
@@ -32,12 +32,16 @@ h1
     width: fit-content;
     text-align: center;
     padding: 5px;
+
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 button
 {
     font-size: 50px;
-    color: coral;
+    color:whitesmoke;
     border-radius: 5px;
     background-color: rgb(112, 112, 112);
     border-color: coral;
@@ -47,7 +51,7 @@ button
 button:hover
 {
     font-size: 50px;
-    color: coral;
+    color: whitesmoke;
     border-radius: 5px;
     background-color: rgb(175, 175, 175);
     border-color: coral;
@@ -110,4 +114,8 @@ body
 {
     background-color: rgb(32, 32, 32);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
