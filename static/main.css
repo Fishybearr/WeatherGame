@@ -1,6 +1,6 @@
 h1
 {
-    color: aqua;
+    color: whitesmoke;
 }
 .temp
 {
@@ -14,11 +14,13 @@ h1
     margin: auto;
     height: fit-content;
     width: fit-content;
-    background-color: gray;
     text-align: center;
+   /* background-color: gray;
+    
     border-color: coral;
     border-radius: 5px;
     border-style: solid;
+    */
 
     -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */

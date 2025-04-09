@@ -4,7 +4,7 @@ import requests_cache
 import pandas as pd
 from retry_requests import retry
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 
 from geopy.geocoders import Nominatim
 
@@ -16,7 +16,7 @@ import random;
 #TODO: Implement session cookies to save a user's progress for the day so they
 #can't just refresh the tab and retry
 
-id = 3;
+id = 2;
 
 
 #---TODO---TODO---TODO: Implement blueprints to clean up this file---
@@ -62,8 +62,21 @@ openmeteo = openmeteo_requests.Client(session = retry_session)
 
 @app.route("/")
 def ShowMainPage():
-    return render_template('index.html')
+    hasCompleted = request.cookies.get('completed')
+    hasCompleted = str(hasCompleted)
 
+    currentID = request.cookies.get('gameId')
+    currentID = str(currentID)
+
+    if(hasCompleted.__eq__("true")):
+        if currentID.__eq__(str(id)):
+            return render_template('alreadyPlayed.html')
+        else:
+            return render_template('index.html')
+        
+    else:    
+        return render_template('index.html')
+#TODO: Need to set some sort of system for the alreadyPlayed page to check if a new game is up
 
 @app.route("/weather", methods=['GET'])
 def fetchWeather():
@@ -225,5 +238,13 @@ def GetCityNames():
     #add names in a random order
     # TODO fetch names from the db and put them in a random order
     return f"{cities[0]}\n{cities[1]}\n{cities[2]}"
+
+@app.route("/validate", methods = ['GET'])
+def SetCookies():
+    resp = make_response()
+    resp.set_cookie('completed','true')
+    resp.set_cookie('gameId',str(id))
+    return resp
+
 
 app.run(debug=True)

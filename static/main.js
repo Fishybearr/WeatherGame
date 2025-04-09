@@ -154,6 +154,15 @@ function SendAnswer(ans,btnID)
     }
 
     sender.send(String(ans));
+    
+    FetchCookies();
+}
+
+function FetchCookies()
+{
+    cookieGetter = new XMLHttpRequest;
+    cookieGetter.open('GET','/validate');
+    cookieGetter.send();
 }
 
 
