@@ -5,12 +5,15 @@ h1
 .temp
 {
     color: coral;
-    margin-left: 50%;
-    display: inline-block;
-    justify-content: center;
+    text-align: center;
     font-size: 50px;
-    background-color: grey;
-    border-radius: 5px;
+    display: inline-block;
+}
+
+.weatherData
+{
+    background-color: gray;
+    text-align: center;
 }
 body
 {

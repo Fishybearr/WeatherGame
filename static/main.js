@@ -16,8 +16,12 @@ const b3 = document.getElementById("b3");
     {
         if(xhr.status >= 200 && xhr.status < 300 )
         {
-            let tmp = String(xhr.responseText);
-            tempDiv.innerText = tmp + ' °F';
+            let wethData = String(xhr.responseText);
+            let w = wethData.split("\n");
+            tempDiv.innerText = w[0];
+            
+            //pick an image based on w[1]
+            GetWeatherIcon(w[1]);
         }
         else //request failed
         {
@@ -31,6 +35,22 @@ const b3 = document.getElementById("b3");
     }
 
     xhr.send(); //closes here
+
+
+
+    function GetWeatherIcon(weatherCode)
+    {
+        const wIcon = document.getElementById("weatherIcon");
+
+        if(weatherCode === "clear")
+            {
+                wIcon.src = 'static/weatherIcons/clear-day.svg';
+            }
+        else if(weatherCode === "cloudy")
+            {
+                wIcon.src = 'static/weatherIcons/cloudy.svg';
+            }
+    }
 
 
     //have another xhr for reading the button names from server
